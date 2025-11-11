@@ -28,6 +28,7 @@ type CashierOrderItemStore = {
     sessions: Record<OrderContextKey, OrderSession | undefined>;
     setOrderItems: (key: OrderContextKey, orderItems: OrderItem[]) => void;
     addOrUpdateOrderItem: (key: OrderContextKey, orderItem: OrderItem) => void;
+    decreaseOrderItem: (key: OrderContextKey, orderItem: OrderItem) => void;
     removeOrderItem: (key: OrderContextKey, menuItemId: number, variantId: number | string) => void;
     clearOrder: (key: OrderContextKey) => void;
     getTotalAmount: (key: OrderContextKey) => number;
@@ -72,6 +73,30 @@ export const useCashierOrderItemStore = create<CashierOrderItemStore>()(
                                       : i,
                               )
                             : [...existing, orderItem]; // ✅ add new item if no match
+
+                    return { orders: { ...state.orders, [key]: updated } };
+                }),
+
+            decreaseOrderItem: (key, orderItem) =>
+                set((state) => {
+                    const existing = state.orders[key] ?? [];
+
+                    const idx = existing.findIndex(
+                        (i) =>
+                            i.menuItem?.id === orderItem.menuItem?.id &&
+                            i.variantId === orderItem.variantId &&
+                            i.notes.trim() === orderItem.notes.trim(),
+                    );
+
+                    if (idx === -1) return state; // item not found
+
+                    const currentItem = existing[idx];
+                    const newQuantity = currentItem.quantity - 1;
+
+                    const updated =
+                        newQuantity > 0
+                            ? existing.map((i, index) => (index === idx ? { ...i, quantity: newQuantity } : i))
+                            : existing.filter((_, index) => index !== idx); // remove item if 0
 
                     return { orders: { ...state.orders, [key]: updated } };
                 }),

@@ -17,7 +17,7 @@ class Branch extends Model
         'email',
         'address',
         'currency',
-        'vat',
+        'tax',
         'lat',
         'long',
         'radius',

@@ -13,58 +13,66 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import AppLayout from '@/layouts/app-layout';
 import { Branch, Language } from '@/types/branch';
 import { router } from '@inertiajs/react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
 type FinanceForm = {
-    vat: number;
+    tax: number;
     currency: string;
     languages: string[];
 };
 
-export default function RestaurantVatCurrencyLanguageSettings({ branch, languages }: { branch: Branch; languages: Language[] }) {
+export default function RestaurantTaxCurrencyLanguageSettings({ branch, languages }: { branch: Branch; languages: Language[] }) {
     console.log({ branch });
 
     const form = useForm<FinanceForm>({
         defaultValues: {
-            vat: branch.vat ?? 0,
-            currency: branch.currency ?? 'mmk',
+            tax: branch.tax ?? 0,
+            currency: branch.currency,
             languages: branch.languages?.map((l: Language) => l.id.toString()) ?? [],
         },
     });
 
     const onSubmit = (values: FinanceForm) => {
-        router.patch(route('restaurant_setting.vat_currency_language.update'), values, {
+        router.patch(route('restaurant_setting.tax_currency_language.update'), values, {
             onSuccess: () => console.log('Finance settings updated'),
         });
     };
 
     return (
-        <AppLayout breadcrumbs={[{ title: 'Vat, currency and languages Settings', href: route('restaurant_setting.vat_currency_language') }]}>
+        <AppLayout breadcrumbs={[{ title: 'Tax, currency and languages Settings', href: route('restaurant_setting.tax_currency_language') }]}>
             <div className="flex justify-center p-4">
                 <div className="w-full max-w-3xl rounded-md border p-6">
                     <div>
-                        <p className="text-2xl font-semibold">Vat, currency and languages Settings</p>
-                        <p className="mt-1.5 text-sm">Manage VAT, currency, and supported languages.</p>
+                        <p className="text-2xl font-semibold">Tax, currency and languages Settings</p>
+                        <p className="mt-1.5 text-sm">Manage TAX, currency, and supported languages.</p>
                     </div>
 
                     <form onSubmit={form.handleSubmit(onSubmit)} className="mt-6 space-y-6">
-                        {/* VAT */}
+                        {/* TAX */}
                         <div>
-                            <Label htmlFor="vat">VAT (%)</Label>
-                            <Input id="vat" type="number" step="0.01" {...form.register('vat', { valueAsNumber: true })} />
+                            <Label htmlFor="tax">TAX (%)</Label>
+                            <Input id="tax" type="number" step="0.01" {...form.register('tax', { valueAsNumber: true })} />
                         </div>
 
                         {/* Currency */}
                         <div>
                             <Label htmlFor="currency">Currency</Label>
-                            <Select value={form.getValues().currency} {...form.register('currency')}>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Select currency" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="mmk">MMK</SelectItem>
-                                </SelectContent>
-                            </Select>
+                            <Controller
+                                control={form.control}
+                                name="currency"
+                                render={({ field }) => (
+                                    <Select value={field.value} onValueChange={field.onChange}>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select currency" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="MMK">MMK</SelectItem>
+                                            <SelectItem value="USD">USD</SelectItem>
+                                            <SelectItem value="JPY">JPY</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                )}
+                            />
                         </div>
 
                         {/* Languages */}
@@ -76,7 +84,7 @@ export default function RestaurantVatCurrencyLanguageSettings({ branch, language
                                 onValuesChange={(values) => form.setValue('languages', values)}
                             >
                                 <MultiSelectTrigger className="w-full">
-                                    <MultiSelectValue placeholder="Select badges..." />
+                                    <MultiSelectValue placeholder="Select languages..." />
                                 </MultiSelectTrigger>
                                 <MultiSelectContent>
                                     <MultiSelectGroup>

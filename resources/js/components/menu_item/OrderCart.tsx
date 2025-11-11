@@ -3,6 +3,7 @@ import { Branch } from '@/types/branch';
 import { Table } from '@/types/table';
 import { router, usePage } from '@inertiajs/react';
 import { ShoppingCart } from 'lucide-react';
+import Price from '../common/Price';
 import { Button } from '../ui/button';
 
 export default function OrderCart() {
@@ -38,9 +39,7 @@ export default function OrderCart() {
                     <ShoppingCart />
                     <span>{`Basket . ${orderItems.length} items`}</span>
                 </div>
-                <span className="font-medium">
-                    {getTotalAmount(contextKey)} {branch.currency.toUpperCase()}
-                </span>
+                <Price amount={getTotalAmount(contextKey)} className="font-medium" />
             </Button>
         </div>
     );

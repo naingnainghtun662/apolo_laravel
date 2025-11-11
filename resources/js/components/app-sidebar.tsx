@@ -7,10 +7,10 @@ import { Link, usePage } from '@inertiajs/react';
 import {
     BookOpen,
     ConciergeBellIcon,
-    DollarSign,
+    // DollarSign,
     LayoutGrid,
     ListIcon,
-    MapPin,
+    // MapPin,
     QrCodeIcon,
     Settings,
     Users2,
@@ -18,6 +18,7 @@ import {
     WarehouseIcon,
 } from 'lucide-react';
 import AppLogo from './app-logo';
+import NotificationsList from './cashier/Notifications';
 import HasRole from './HasRole';
 
 const adminNavItems: NavItem[] = [
@@ -56,21 +57,21 @@ const adminNavItems: NavItem[] = [
         title: 'Settings',
         icon: Settings,
         href: route('restaurant_setting.general'),
-        items: [
+        children: [
             {
                 title: 'General settings',
                 href: route('restaurant_setting.general'),
-                icon: Settings,
+                // icon: Settings,
             },
             {
-                title: 'VAT, Currency, Language',
-                href: route('restaurant_setting.vat_currency_language'),
-                icon: DollarSign,
+                title: 'TAX, Currency, Language',
+                href: route('restaurant_setting.tax_currency_language'),
+                // icon: DollarSign,
             },
             {
                 title: 'Location',
                 href: route('restaurant_setting.location'),
-                icon: MapPin,
+                // icon: MapPin,
             },
         ],
     },
@@ -133,7 +134,7 @@ export function AppSidebar() {
                 </HasRole>
                 <HasRole role="cashier">
                     <NavMain items={cashierNavItems} />
-                    {/* <NotificationsList /> */}
+                    <NotificationsList />
                 </HasRole>
                 <HasRole role="kitchen">
                     <NavMain items={kitchenNavItems} />

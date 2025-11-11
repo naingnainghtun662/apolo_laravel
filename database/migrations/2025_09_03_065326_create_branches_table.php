@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('address')->nullable();
             $table->string('currency')->nullable();
-            $table->integer('vat')->nullable();
+            $table->integer('tax')->nullable();
             $table->float('lat')->nullable();
             $table->float('long')->nullable();
             $table->float('radius')->nullable();

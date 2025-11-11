@@ -28,7 +28,7 @@ class BranchController extends Controller
                 'email' => $validated['email'] ?? null,
                 'address' => $validated['address'] ?? null,
                 'currency' => $validated['currency'],
-                'vat' => $validated['vat'] ?? 0,
+                'tax' => $validated['tax'] ?? 0,
                 'lat' => $validated['lat'] ?? null,
                 'long' => $validated['long'] ?? null,
                 'radius' => $validated['radius'] ?? null,
@@ -81,7 +81,7 @@ class BranchController extends Controller
     {
         $branch = Branch::with('languages')->where('id', session(SessionKeys::CURRENT_BRANCH_ID))->first();
 
-        return Inertia::render('restaurant/settings/vat_currency_language', [
+        return Inertia::render('restaurant/settings/tax_currency_language', [
             'branch' => BranchResource::make($branch),
             'languages' => LanguageResource::collection(Language::all()),
         ]);
@@ -153,7 +153,7 @@ class BranchController extends Controller
         $branch = $request->user()->currentBranch();
 
         $branch->update([
-            'vat' => $validated['vat'],
+            'tax' => $validated['tax'],
             'currency' => $validated['currency'],
         ]);
 
@@ -162,6 +162,6 @@ class BranchController extends Controller
             $branch->languages()->sync($request->languages);
         }
 
-        return redirect()->back()->with('success', 'Finance settings updated successfully.');
+        return redirect()->back()->with('success', 'Settings updated successfully.');
     }
 }

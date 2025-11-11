@@ -27,8 +27,8 @@ export default function MenuItem({ menuItem, currency }: { menuItem: TMenuItem; 
                 </div>
                 <div className="flex flex-grow items-center">
                     <div className="ml-5 flex-grow">
-                        <p className="font-bold capitalize">{menuItem.translations[0].name}</p>
-                        <p className="mt-2 text-gray-400">{menuItem.translations[0].description}</p>
+                        <p className="font-bold capitalize">{menuItem.translations[0]?.name}</p>
+                        <p className="mt-2 text-gray-400">{menuItem.translations[0]?.description}</p>
                         <div className="mt-2 flex items-center gap-2">
                             {menuItem.badges.map((badge) => (
                                 <Badge key={badge.id}>{badge.name}</Badge>

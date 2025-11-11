@@ -90,8 +90,8 @@ class OrderController extends Controller
 
             $discount = $validated['discount'] ?? 0;
 
-            // store the VAT rate used right now
-            $vatRate = Branch::findOrFail($validated['branchId'])->vat ?? 0;
+            // store the TAX rate used right now
+            $vatRate = Branch::findOrFail($validated['branchId'])->tax ?? 0;
 
             // compute tax and totals (round to 2 decimals)
             $tax = round(($subtotal - $discount) * ($vatRate / 100), 2);
@@ -194,8 +194,8 @@ class OrderController extends Controller
 
             $discount = $validated['discount'] ?? 0;
 
-            // store the VAT rate used right now
-            $vatRate = Branch::findOrFail(session(SessionKeys::CURRENT_BRANCH_ID))->vat ?? 0;
+            // store the TAX rate used right now
+            $vatRate = Branch::findOrFail(session(SessionKeys::CURRENT_BRANCH_ID))->tax ?? 0;
 
             // compute tax and totals (round to 2 decimals)
             $tax = round(($subtotal - $discount) * ($vatRate / 100), 2);

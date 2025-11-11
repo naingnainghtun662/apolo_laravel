@@ -2,6 +2,7 @@ import { OrderItem, useCashierOrderItemStore } from '@/store/cashier/useCashierO
 import { Branch } from '@/types/branch';
 import { router, usePage } from '@inertiajs/react';
 import { ImageOffIcon, Minus, Plus, Trash2Icon } from 'lucide-react';
+import Price from '../common/Price';
 import { Button } from '../ui/button';
 
 export default function AddedOrderItems({ tableId, orderType }: { tableId?: string; orderType?: string }) {
@@ -20,7 +21,7 @@ export default function AddedOrderItems({ tableId, orderType }: { tableId?: stri
         flash,
     });
     const allOrders = useCashierOrderItemStore((store) => store.orders);
-    const uniqueKey = `${branch.id}-${table}`;
+    const uniqueKey = `${branch.id}-${tableId || table}`;
     console.log({
         uniqueKey,
     });
@@ -28,6 +29,7 @@ export default function AddedOrderItems({ tableId, orderType }: { tableId?: stri
     console.log({ orders });
     const clearOrder = useCashierOrderItemStore((store) => store.clearOrder);
     const addOrUpdateOrderItem = useCashierOrderItemStore((store) => store.addOrUpdateOrderItem);
+    const decreaseOrderItem = useCashierOrderItemStore((store) => store.decreaseOrderItem);
     const removeOrderItem = useCashierOrderItemStore((store) => store.removeOrderItem);
     const getTotalAmount = useCashierOrderItemStore((store) => store.getTotalAmount);
     const handleClearOrder = () => {
@@ -36,14 +38,14 @@ export default function AddedOrderItems({ tableId, orderType }: { tableId?: stri
     const handleIncreaseOrderItem = (orderItem: OrderItem) => {
         addOrUpdateOrderItem(uniqueKey, {
             menuItem: orderItem.menuItem,
-            quantity: orderItem.quantity + 1,
+            quantity: 1,
             notes: orderItem.notes,
             variantId: orderItem.variantId,
             price: orderItem.price,
         });
     };
     const handleDecreaseOrderItem = (orderItem: OrderItem) => {
-        addOrUpdateOrderItem(uniqueKey, {
+        decreaseOrderItem(uniqueKey, {
             menuItem: orderItem.menuItem,
             quantity: orderItem.quantity > 1 ? orderItem.quantity - 1 : 1,
             notes: orderItem.notes,
@@ -57,7 +59,7 @@ export default function AddedOrderItems({ tableId, orderType }: { tableId?: stri
     };
 
     const subtotal = getTotalAmount(uniqueKey);
-    const vatAmount = subtotal * (branch.vat / 100);
+    const vatAmount = subtotal * (branch.tax / 100);
     const total = subtotal + vatAmount;
 
     const handleSaveOrderItems = () => {
@@ -141,9 +143,7 @@ export default function AddedOrderItems({ tableId, orderType }: { tableId?: stri
                                     </Button>
                                 </div>
                                 <div>
-                                    <span className="font-bold uppercase">
-                                        {branch.currency} {orderItem.price * orderItem.quantity}
-                                    </span>
+                                    <Price amount={orderItem.price * orderItem.quantity} className="font-bold" />
                                 </div>
                             </div>
                         </div>
@@ -153,26 +153,15 @@ export default function AddedOrderItems({ tableId, orderType }: { tableId?: stri
             <div className="mt-6 rounded-md border bg-white p-3 text-sm">
                 <div className="flex items-center justify-between">
                     <span>Subtotal</span>
-                    <span className="font-bold uppercase">
-                        {branch.currency}
-                        {` `}
-                        {subtotal}
-                    </span>
+                    <Price amount={subtotal} className="font-bold" />
                 </div>
                 <div className="mt-4 flex items-center justify-between border-b border-dashed pb-5">
-                    <span>Vat {branch.vat}%</span>
-                    <span className="font-bold uppercase">
-                        {branch.currency} {` `}
-                        {vatAmount}
-                    </span>
+                    <span>TAX {branch.tax}%</span>
+                    <Price amount={vatAmount} className="font-bold" />
                 </div>
                 <div className="mt-5 flex items-center justify-between">
                     <span className="font-bold">Total</span>
-                    <span className="font-bold uppercase">
-                        {branch.currency}
-                        {` `}
-                        {total}
-                    </span>
+                    <Price amount={total} className="font-bold" />
                 </div>
 
                 <Button onClick={handleSaveOrderItems} className="mt-2 mb-5 w-full">

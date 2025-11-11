@@ -4,7 +4,7 @@ import { Branch } from '@/types/branch';
 import { Order } from '@/types/order';
 import { usePage } from '@inertiajs/react';
 import { ImageOffIcon } from 'lucide-react';
-import Price from '../Price';
+import Price from '../common/Price';
 import { Badge } from '../ui/badge';
 import { Card } from '../ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
@@ -115,10 +115,10 @@ export function OrderDetailDrawer() {
                                             <div>
                                                 <div className="flex items-center">
                                                     <p className="w-[200px] text-sm">Subtotal</p>
-                                                    <Price className="w-[200px] text-end text-sm" price={order.subtotal} />
+                                                    <Price className="w-[200px] text-end text-sm" amount={order.subtotal} />
                                                 </div>
                                                 <div className="mt-3 flex items-center">
-                                                    <p className="w-[200px] text-sm">VAT(%)</p>
+                                                    <p className="w-[200px] text-sm">TAX(%)</p>
                                                     <p className="w-[200px] text-end text-sm">{order.vatRate} %</p>
                                                 </div>
                                             </div>
@@ -126,7 +126,7 @@ export function OrderDetailDrawer() {
                                         <div>
                                             <div className="flex items-center justify-end p-5">
                                                 <p className="w-[200px] text-sm font-medium">Grand total</p>
-                                                <Price className="w-[200px] text-end text-sm font-medium" price={order.total} />
+                                                <Price className="w-[200px] text-end text-sm font-medium" amount={order.total} />
                                             </div>
                                         </div>
                                     </div>

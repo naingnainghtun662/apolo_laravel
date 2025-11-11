@@ -4,8 +4,8 @@ import { Order } from '@/types/order';
 import { Table } from '@/types/table';
 import { router, usePage } from '@inertiajs/react';
 import dayjs from 'dayjs';
-import { ImageOffIcon, } from 'lucide-react';
-import { CheckCircle2Icon, CircleDollarSignIcon, DollarSign } from 'lucide-react';
+import { CheckCircle2Icon, CircleDollarSignIcon, DollarSign, ImageOffIcon } from 'lucide-react';
+import Price from '../common/Price';
 import { Button } from '../ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 
@@ -93,9 +93,7 @@ export default function PaymentDialog() {
                                             </div>
                                             <div className="flex w-full items-center justify-between text-sm font-medium">
                                                 <span>{item.quantity}</span>
-                                                <p className="font-semibold">
-                                                    <span className="uppercase">{branch.currency}</span> {order.subtotal}
-                                                </p>
+                                                <Price amount={order.subtotal} className="font-semibold" />
                                             </div>
                                         </div>
                                     </div>
@@ -105,21 +103,15 @@ export default function PaymentDialog() {
                         <div className="sticky right-0 bottom-0 left-0 w-full rounded-md bg-gray-100 px-8 py-3 shadow">
                             <div className="flex items-center justify-between text-sm">
                                 <span>Subtotal</span>
-                                <span className="font-semibold uppercase">
-                                    {branch.currency} {tableOrderTotal}
-                                </span>
+                                <Price amount={tableOrderTotal} className="font-semibold" />
                             </div>
                             <div className="mt-4 mb-5 flex items-center justify-between border-b border-dashed">
-                                <span>Vat {branch.vat}%</span>
-                                <span className="font-semibold uppercase">
-                                    {branch.currency} {tableOrderTax}
-                                </span>
+                                <span>Tax {branch.tax}%</span>
+                                <Price amount={tableOrderTax} className="font-semibold" />
                             </div>
                             <div className="flex items-center justify-between">
                                 <span>Total</span>
-                                <span className="font-semibold uppercase">
-                                    {branch.currency} {tableOrderTotal + tableOrderTax}
-                                </span>
+                                <Price amount={tableOrderTotal + tableOrderTax} className="font-semibold" />
                             </div>
                         </div>
                     </div>

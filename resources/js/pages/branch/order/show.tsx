@@ -1,3 +1,4 @@
+import Price from '@/components/common/Price';
 import OrderItem from '@/components/order_detail/OrderItem';
 import SelectPaymentMethod from '@/components/order_detail/SelectPaymentMethod';
 import { Branch } from '@/types/branch';
@@ -24,19 +25,21 @@ export default function OrderDetail() {
                         <div className="border-b py-3 text-muted-foreground">
                             <div className="flex items-center justify-between">
                                 <span className="text-sm">Sub total</span>
+                                <Price className="text-sm" amount={order.subtotal} />
+                                {/* 
                                 <span className="text-sm">
                                     {order.subtotal}
                                     {branch.currency}
-                                </span>
+                                </span> */}
                             </div>
                             <div className="flex items-center justify-between">
-                                <span className="text-sm">Vat</span>
-                                <span className="text-sm">{`${branch.vat}%`}</span>
+                                <span className="text-sm">Tax</span>
+                                <span className="text-sm">{`${branch.tax}%`}</span>
                             </div>
                         </div>
                         <div className="flex items-center justify-between py-3">
                             <span className="text-sm font-medium">Total</span>
-                            <span className="text-sm font-medium">{order.total}</span>
+                            <Price className="text-sm font-medium" amount={order.total} />
                         </div>
                     </div>
                     <SelectPaymentMethod />

@@ -6,10 +6,11 @@ import { usePage } from '@inertiajs/react';
 import dayjs from 'dayjs';
 import { CheckIcon, ImageOffIcon, LoaderIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { twMerge } from 'tailwind-merge';
+import Price from '../common/Price';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import AddNewOrderDialog from './AddNewOrderDialog';
 import PaymentDialog from './PaymentDialog';
-import { twMerge } from 'tailwind-merge';
 export default function TableDetailDialog() {
     const { filters, tableOrders, table, branch } = usePage<{
         filters: {
@@ -32,6 +33,7 @@ export default function TableDetailDialog() {
     const firstOrder = tableOrders[0];
     const totalItems = tableOrders.reduce((acc, order) => acc + (order.items?.length || 0), 0);
     const tableOrderTotal = tableOrders.reduce((acc, order) => acc + (Number(order.total) || 0), 0);
+    const tableOrderSubTotal = tableOrders.reduce((acc, order) => acc + (Number(order.subtotal) || 0), 0);
     const allServed = tableOrders.reduce(
         (acc, order) => acc && (order.status ?? '').toLowerCase().trim() === 'served',
         true, // initial value is important
@@ -60,7 +62,12 @@ export default function TableDetailDialog() {
                                 </p>
                             </div>
                         </div>
-                        <div className={twMerge('flex items-center justify-between gap-6 rounded-lg border px-3 py-2 text-sm ', allServed ? "text-green-500": "text-yellow-700")}>
+                        <div
+                            className={twMerge(
+                                'flex items-center justify-between gap-6 rounded-lg border px-3 py-2 text-sm',
+                                allServed ? 'text-green-500' : 'text-yellow-700',
+                            )}
+                        >
                             {allServed ? (
                                 <>
                                     <div className="flex items-center gap-2">
@@ -122,7 +129,7 @@ export default function TableDetailDialog() {
                                             <div className="flex w-full items-center justify-between text-sm font-medium">
                                                 <span>{item.quantity}</span>
                                                 <p className="font-semibold">
-                                                    <span className="uppercase">{branch.currency}</span> {order.subtotal}
+                                                    <Price amount={item.totalPrice} className="font-semibold" />
                                                 </p>
                                             </div>
                                         </div>
@@ -137,13 +144,32 @@ export default function TableDetailDialog() {
                     </div>
                     <div className="sticky bottom-0 z-10 w-full rounded-md border bg-white shadow">
                         {firstOrder && (
-                            <div className="flex items-center justify-between px-6 py-3">
-                                <p className="font-bold">Total Payment</p>
+                            <div className="flex items-center justify-between px-6 py-2">
+                                <p className="font-bold">Sub Total</p>
                                 <p className="font-bold">
-                                    <span className="uppercase">{branch.currency}</span> <span>{tableOrderTotal}</span>
+                                    <Price amount={tableOrderSubTotal} className="font-bold" />
                                 </p>
                             </div>
                         )}
+
+                        {firstOrder && (
+                            <div className="flex items-center justify-between px-6 py-2">
+                                <p className="font-bold">Tax </p>
+                                <p className="font-bold">
+                                    <span>{branch.tax}%</span>
+                                </p>
+                            </div>
+                        )}
+
+                        {firstOrder && (
+                            <div className="flex items-center justify-between px-6 py-2">
+                                <p className="font-bold">Total Payment</p>
+                                <p className="font-bold">
+                                    <Price amount={tableOrderTotal} className="font-bold" />
+                                </p>
+                            </div>
+                        )}
+
                         <div className="flex w-full items-center gap-2 px-6 py-4">
                             <div className="flex-grow">
                                 <AddNewOrderDialog />

@@ -10,6 +10,7 @@ import { DialogTitle } from '@radix-ui/react-dialog';
 import dayjs from 'dayjs';
 import { ImageOffIcon, Minus, Plus, PlusIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import Price from '../common/Price';
 import ItemBadges from '../menu_item/ItemBadges';
 import ItemPrices from '../menu_item/ItemPrices';
 import ItemVariantsSelect from '../menu_item/ItemVariantsSelect';
@@ -286,11 +287,7 @@ const OrderableMenuItem = ({ item }: { item: MenuItem }) => {
                                     }}
                                 >
                                     <span>Add to cart</span>
-                                    {selectedVariant && (
-                                        <span className="ml-2 uppercase">
-                                            {branch.currency} {Number(selectedVariant?.price) * quantity}
-                                        </span>
-                                    )}
+                                    {selectedVariant && <Price amount={Number(selectedVariant?.price) * quantity} className="ml-2" />}
                                 </Button>
                             </div>
                         </div>

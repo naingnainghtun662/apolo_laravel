@@ -1,7 +1,7 @@
+import Price from '@/components/common/Price';
 import BackToMenus from '@/components/menu_item/BackToMenus';
 import OrderItem from '@/components/order_detail/OrderItem';
 import SelectPaymentMethod from '@/components/order_detail/SelectPaymentMethod';
-import Price from '@/components/Price';
 import PublicLayout from '@/layouts/public-layout';
 import { Branch } from '@/types/branch';
 import { Order } from '@/types/order';
@@ -36,16 +36,16 @@ export default function TableOrders() {
                             <div className="border-b py-3 text-muted-foreground">
                                 <div className="flex items-center justify-between">
                                     <span className="text-sm">Sub total</span>
-                                    <Price price={totals['subtotal']} className="text-sm" />
+                                    <Price amount={totals['subtotal']} className="text-sm" />
                                 </div>
                                 <div className="flex items-center justify-between">
-                                    <span className="text-sm">Vat</span>
-                                    <span className="text-sm">{`${branch.vat}%`}</span>
+                                    <span className="text-sm">Tax</span>
+                                    <span className="text-sm">{`${branch.tax}%`}</span>
                                 </div>
                             </div>
                             <div className="flex items-center justify-between py-3">
                                 <span className="text-sm font-medium">Total</span>
-                                <Price price={totals['total']} className="text-sm font-medium" />
+                                <Price amount={totals['total']} className="text-sm font-medium" />
                             </div>
                         </div>
                         <SelectPaymentMethod />

@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Branch;
+use App\Models\Language;
 use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Console\Command;
@@ -73,9 +74,13 @@ class CreateTenantCommand extends Command
                 'name' => "{$tenantName} Main Branch",
                 'email' => $adminEmail,
                 'currency' => 'MMK',
-                'vat' => 0,
+                'tax' => 0,
                 'tenant_id' => $tenant->id,
             ]);
+
+            // Select english language
+            $language = Language::where('code', 'en')->first();
+            $branch->languages()->attach($language->id);
 
             // 3️⃣ Create Admin User
             $adminUser = User::create([

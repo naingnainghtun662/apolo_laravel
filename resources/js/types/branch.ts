@@ -5,7 +5,7 @@ export type Branch = {
     email: string;
     address: string;
     currency: string;
-    vat: number;
+    tax: number;
     lat: number;
     long: number;
     radius: number;

@@ -37,7 +37,7 @@ export default function BrowseMenuItems() {
     return (
         <div>
             <div className="flex items-center justify-between p-4">
-                <p className="text-sm font-semibold">{category.name}</p>
+                <p className="text-sm font-semibold">{category?.name}</p>
 
                 <div>
                     <Tabs value={tab} defaultValue={tab} onValueChange={handleTabChange}>

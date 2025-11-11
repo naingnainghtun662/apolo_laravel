@@ -49,10 +49,10 @@ class MenuItemController extends Controller
             }
 
             // Translation — assume submitted language = Burmese
-            $burmese = Language::where('code', 'my')->first();
-            if ($burmese) {
+            $language = Language::where('code', 'en')->first();
+            if ($language) {
                 $menuItem->translations()->create([
-                    'language_id' => $burmese->id,
+                    'language_id' => $language->id,
                     'name' => $validated['name'],
                     'description' => $validated['description'] ?? null,
                 ]);

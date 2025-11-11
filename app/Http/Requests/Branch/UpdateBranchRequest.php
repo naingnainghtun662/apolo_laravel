@@ -27,7 +27,7 @@ class UpdateBranchRequest extends FormRequest
             'email' => 'nullable|email|max:255',
             'address' => 'nullable|string|max:500',
             'currency' => 'nullable|string|max:10',
-            'vat' => 'nullable|numeric|min:0',
+            'tax' => 'nullable|numeric|min:0',
             'lat' => 'nullable|numeric',
             'long' => 'nullable|numeric',
             'radius' => 'nullable|numeric|min:0',

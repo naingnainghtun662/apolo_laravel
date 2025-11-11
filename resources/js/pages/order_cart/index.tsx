@@ -1,3 +1,4 @@
+import Price from '@/components/common/Price';
 import EmptyOrdersIcon from '@/components/EmptyOrder';
 import BackToMenus from '@/components/menu_item/BackToMenus';
 import OrderItem from '@/components/order_cart/OrderItem';
@@ -95,9 +96,7 @@ export default function OrderItemsCart() {
                                     {loading ? 'Checking location...' : error && branch.radius > 0 ? 'Location required' : 'Place order'}
                                 </span>
                             </div>
-                            <p className="text-sm font-medium">
-                                {totalPrice} {branch.currency.toUpperCase()}
-                            </p>
+                            <Price className="text-sm font-medium" amount={totalPrice} />
                         </Button>
 
                         {/* ✅ Show error if location blocked or failed */}

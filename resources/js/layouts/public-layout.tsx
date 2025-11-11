@@ -3,6 +3,8 @@ import { Toaster } from '@/components/ui/sonner';
 import { AlertTriangleIcon, CheckCircle, InfoIcon, LoaderCircle, TriangleAlertIcon, XIcon } from 'lucide-react';
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
+    document.documentElement.classList.toggle('dark', false);
+    document.documentElement.style.colorScheme = 'light';
     return (
         <div className="h-[100vh] w-full">
             {children}

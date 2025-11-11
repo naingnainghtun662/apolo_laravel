@@ -60,7 +60,7 @@ return new class extends Migration
             $table->text('notes')->nullable();
             $table->decimal('subtotal', 10, 2)->default(0);  // sum of all order items before discount/tax
             $table->decimal('discount', 10, 2)->default(0);  // any discount applied
-            $table->decimal('tax', 10, 2)->default(0);       // VAT or other taxes
+            $table->decimal('tax', 10, 2)->default(0);       // TAX or other taxes
             $table->decimal('total', 10, 2)->default(0);     // final amount after discount + tax
 
             $table->timestamps();

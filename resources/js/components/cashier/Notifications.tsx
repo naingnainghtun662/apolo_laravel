@@ -116,22 +116,29 @@ export default function NotificationsList() {
                         <DrawerTitle>Notifications</DrawerTitle>
                         <DrawerDescription>Table request notifications.</DrawerDescription>
                     </DrawerHeader>
-                    <div>
+                    <div className="overflow-y-auto">
                         {notifications?.length > 0 ? (
                             <div>
                                 {notifications.map((notification) => (
-                                    <div key={notification.id}>
-                                        <p>{notification.table.name}</p>
-                                        <p>{notification.requestAction.name}</p>
-                                        {REQUEST_ACTION_ICON_NAMES.find((icon) => icon.name === notification.requestAction.icon)?.component}
-                                        <Button
-                                            onClick={() => {
-                                                markAsRead(notification.id);
-                                            }}
-                                            size={'sm'}
-                                        >
-                                            mark as read
-                                        </Button>
+                                    <div className="flex gap-4 border p-2" key={notification.id}>
+                                        <div>
+                                            {REQUEST_ACTION_ICON_NAMES.find((icon) => icon.name === notification.requestAction.icon)?.component}
+                                        </div>
+                                        <div className="flex-grow">
+                                            <p className="text-sm font-bold">{notification.table.name}</p>
+                                            <p className="text-sm font-semibold">{notification.requestAction.name}</p>
+                                        </div>
+                                        <div className="self-end">
+                                            <Button
+                                                variant={'ghost'}
+                                                onClick={() => {
+                                                    markAsRead(notification.id);
+                                                }}
+                                                size={'sm'}
+                                            >
+                                                OK
+                                            </Button>
+                                        </div>
                                     </div>
                                 ))}
                             </div>
@@ -141,7 +148,7 @@ export default function NotificationsList() {
                             </div>
                         ) : (
                             <div className="flex items-center justify-center">
-                                <p className="text-muted-foreground">No notifications</p>
+                                <p className="text-sm text-muted-foreground">No notifications</p>
                             </div>
                         )}
                     </div>
